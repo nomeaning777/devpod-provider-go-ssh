@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"path"
 	"strings"
 
+	"github.com/alexhunt7/ssher"
 	"github.com/kballard/go-shellquote"
 	"github.com/loft-sh/devpod-provider-ssh/pkg/options"
 	"github.com/loft-sh/devpod/pkg/log"
+	sshagent "github.com/xanzy/ssh-agent"
+	"golang.org/x/crypto/ssh"
 )
 
 type SSHProvider struct {
@@ -67,19 +69,40 @@ func getSSHCommand(provider *SSHProvider) ([]string, error) {
 }
 
 func execSSHCommand(provider *SSHProvider, command string, output io.Writer) error {
-	commandToRun, err := getSSHCommand(provider)
+	sshConfig, hostPort, err := ssher.ClientConfig(provider.Config.Host, "")
+	if err != nil {
+		return fmt.Errorf("ssh client config for %s: %+v", provider.Config.Host, err)
+	}
+	if sshagent.Available() {
+		agent, _, err := sshagent.New()
+		if err != nil {
+			return fmt.Errorf("ssh agent: %+v", err)
+		}
+		signers, err := agent.Signers()
+		if err != nil {
+			return fmt.Errorf("ssh signers: %+v", err)
+		}
+		sshConfig.Auth = []ssh.AuthMethod{ssh.PublicKeys(signers...)}
+		sshConfig.User = "nomeaning"
+	}
+	conn, err := ssh.Dial("tcp", hostPort, sshConfig)
+	if err != nil {
+		return fmt.Errorf("ssh dial: %v", err)
+	}
+	defer conn.Close()
+	session, err := conn.NewSession()
+	if err != nil {
+		return fmt.Errorf("ssh new session: %v", err)
+	}
+	defer session.Close()
+	session.Stdin = os.Stdin
+	session.Stdout = output
+	session.Stderr = os.Stderr
+	err = session.Run(command)
 	if err != nil {
 		return err
 	}
-
-	commandToRun = append(commandToRun, command)
-
-	cmd := exec.Command("ssh", commandToRun...)
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = output
-	cmd.Stderr = os.Stderr
-
-	return cmd.Run()
+	return nil
 }
 
 func Init(provider *SSHProvider) error {

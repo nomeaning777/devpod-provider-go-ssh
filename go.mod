@@ -17,6 +17,7 @@ require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
 	github.com/alessio/shellescape v1.4.1 // indirect
+	github.com/alexhunt7/ssher v0.0.0-20190216204854-d36569cf7047 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.0 // indirect
 	github.com/compose-spec/compose-go v1.11.0 // indirect
@@ -44,6 +45,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213 // indirect
+	github.com/kevinburke/ssh_config v0.0.0-20180830205328-81db2a75821e // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
 	github.com/loft-sh/utils v0.0.16 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -61,11 +63,13 @@ require (
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0-rc3 // indirect
 	github.com/otiai10/copy v1.7.0 // indirect
+	github.com/pelletier/go-buffruneio v0.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/tidwall/jsonc v0.3.2 // indirect
+	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
